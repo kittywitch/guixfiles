@@ -52,12 +52,13 @@
           (service home-files-service-type
            `((".guile" ,%default-dotguile)
              (".Xdefaults" ,%default-xdefaults)
-	     (".gitconfig", (local-file "files/gitconfig"))
+	     (".gitconfig" ,(local-file "files/gitconfig"))
 	     ))
 
           (service home-xdg-configuration-files-service-type
            `(("gdb/gdbinit" ,%default-gdbinit)
-             ("nano/nanorc" ,%default-nanorc))))
+             ("nano/nanorc" ,%default-nanorc)
+	     ("jj/config.toml" ,(local-file "files/jj-config.toml")))))
 
         %base-home-services))))
 
