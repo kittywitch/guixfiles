@@ -12,10 +12,17 @@
 		     xdisorg ; wl-clipboard
 		     rust-apps) ; jujutsu
 
+(define sway-bar-status #~(string-append "while "
+                 #$coreutils "/bin/date"
+                 " +'%Y-%m-%d %X'; do sleep 1; done"))
+
 (define sway-config
   (sway-configuration
     (inherit %empty-sway-configuration)
-    ;;(bar TODO)
+    (bar (sway-bar
+	   (identifier 'bar0)
+	   (position 'top)
+	   (status-command sway-bar-status)))
     ;;(startup+reload-programs TODO)
     ;;(extra-content TODO)
     (variables %sway-default-variables)
@@ -25,7 +32,7 @@
 			grimshot
 			wl-clipboard) %sway-default-packages))
     (modes %sway-default-modes)
-    (startup-programs %sway-default-startup-programs)
+    ;(startup-programs %sway-default-startup-programs)
     (inputs (list (sway-input (identifier "type:keyboard")
 			      (layout (keyboard-layout "us" #:options '("ctrl:nocaps"))))))))
 
@@ -38,7 +45,7 @@
           ;; Uncomment the shell you wish to use for your user:
           ;(service home-bash-service-type)
           ;(service home-fish-service-type)
-          ;(service home-zsh-service-type)
+          (service home-zsh-service-type)
 
 	  (service home-sway-service-type sway-config)
 

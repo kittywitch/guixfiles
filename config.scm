@@ -18,7 +18,8 @@
 	       #:use-module (gnu services desktop)
 	       #:use-module (gnu services networking)
 	       #:use-module (gnu services ssh)
-	       #:use-module (gnu services xorg))
+	       #:use-module (gnu services xorg)
+	       #:use-module (gnu packages shells))
 
 (operating-system
   (locale "en_CA.utf8")
@@ -32,6 +33,7 @@
                   (comment "Kat Inskip")
                   (group "users")
                   (home-directory "/home/kat")
+		  (shell (file-append zsh "/bin/zsh"))
                   (supplementary-groups '("wheel" "netdev" "audio" "video")))
                 %base-user-accounts))
 
@@ -42,6 +44,7 @@
                           (specification->package "wmenu")
                           (specification->package "librewolf")
                           (specification->package "neovim")
+			  (specification->package "git")
                           (specification->package "foot")) %base-packages))
 
   ;; Below is the list of system services.  To search for available
