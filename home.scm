@@ -1,16 +1,30 @@
+(add-to-load-path (dirname (current-filename)))
 (use-modules (ice-9 match)
   (gnu)
   (gnu home)
   (gnu home services)
+  (gnu home services dotfiles)
   (gnu home services shells)
   (gnu home services sway)
+  (packages nvim)
   (gnu system keyboard)
   (gnu services)
   (gnu system shadow))
 
 (use-package-modules wm ; grimshot
 		     xdisorg ; wl-clipboard
-		     rust-apps) ; jujutsu
+		     rust-apps ; jujutsu
+		     vim ; self-explanatory
+		     librewolf ; self-explanatory
+		     lua ; fennel
+		     terminals ; foot
+		     )
+
+(define neovim-packages 
+  (list neovim
+	neovim-nfnl
+	vim-paredit
+	vim-guix-vim))
 
 (define sway-bar-status #~(string-append "while "
                  #$coreutils "/bin/date"
@@ -38,27 +52,35 @@
 
 (define home-config
   (home-environment
-    (packages (list jujutsu))
+    (packages (append neovim-packages
+		      (list jujutsu
+			    librewolf
+			    fennel
+			    fennel-ls
+			    foot)))
     (services
       (append
         (list
-          ;; Uncomment the shell you wish to use for your user:
-          ;(service home-bash-service-type)
-          ;(service home-fish-service-type)
-          (service home-zsh-service-type)
+	  (simple-service 'editor-env-var
+		   home-environment-variables-service-type
+		   '(("EDITOR" . "neovim")))
+
+          (service home-fish-service-type)
 
 	  (service home-sway-service-type sway-config)
+
+	  (service home-dotfiles-service-type
+		    (home-dotfiles-configuration
+		      (directories '("./dotfiles"))))
 
           (service home-files-service-type
            `((".guile" ,%default-dotguile)
              (".Xdefaults" ,%default-xdefaults)
-	     (".gitconfig" ,(local-file "files/gitconfig"))
 	     ))
 
           (service home-xdg-configuration-files-service-type
            `(("gdb/gdbinit" ,%default-gdbinit)
-             ("nano/nanorc" ,%default-nanorc)
-	     ("jj/config.toml" ,(local-file "files/jj-config.toml")))))
+             ("nano/nanorc" ,%default-nanorc))))
 
         %base-home-services))))
 

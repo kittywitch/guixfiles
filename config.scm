@@ -19,9 +19,15 @@
 	       #:use-module (gnu services networking)
 	       #:use-module (gnu services ssh)
 	       #:use-module (gnu services xorg)
-	       #:use-module (gnu packages shells))
+	       #:use-module (gnu packages shells)
+	       ; forgive me Saint IGNUcius, for i have sinned
+	       #:use-module (nongnu packages linux)
+	       #:use-module (nongnu system linux-initrd))
 
 (operating-system
+  (kernel linux)
+  (initrd microcode-initrd)
+  (firmware (list linux-firmware))
   (locale "en_CA.utf8")
   (timezone "America/Vancouver")
   (keyboard-layout (keyboard-layout "gb"))
@@ -33,7 +39,7 @@
                   (comment "Kat Inskip")
                   (group "users")
                   (home-directory "/home/kat")
-		  (shell (file-append zsh "/bin/zsh"))
+		  (shell (file-append fish "/bin/fish"))
                   (supplementary-groups '("wheel" "netdev" "audio" "video")))
                 %base-user-accounts))
 
@@ -42,10 +48,7 @@
   ;; for packages and 'guix install PACKAGE' to install a package.
   (packages (append (list (specification->package "sway")
                           (specification->package "wmenu")
-                          (specification->package "librewolf")
-                          (specification->package "neovim")
-			  (specification->package "git")
-                          (specification->package "foot")) %base-packages))
+			  (specification->package "git")) %base-packages))
 
   ;; Below is the list of system services.  To search for available
   ;; services, run 'guix system search KEYWORD' in a terminal.
@@ -58,9 +61,21 @@
 			   (guix-service-type
 			     config => (guix-configuration
 					 (inherit config)
+					 (substitute-urls
+					   (append (list "https://substitutes.nonguix.org")
+						   %default-substitute-urls))
+					 (authorized-keys
+					   (append (list (plain-file "non-guix.pub"
+								     "(public-key 
+								     (ecc 
+								       (curve Ed25519)
+								       (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)
+								       )
+								     )
+								     "))
+						   %default-authorized-guix-keys))
 					 (channels %kittywitch-channels)
-					 (guix (guix-for-channels %kittywitch-channels)))))
-	  ))
+					 (guix (guix-for-channels %kittywitch-channels)))))))
   (bootloader (bootloader-configuration
                 (bootloader grub-efi-bootloader)
                 (targets (list "/boot/efi"))
