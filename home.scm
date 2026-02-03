@@ -23,6 +23,7 @@
 (define neovim-packages 
   (list neovim
 	neovim-nfnl
+	neovim-conjure
 	vim-paredit
 	vim-guix-vim))
 
@@ -54,6 +55,9 @@
   (home-environment
     (packages (append neovim-packages
 		      (list jujutsu
+			    ripgrep
+			    fd
+			    sd
 			    librewolf
 			    fennel
 			    fennel-ls
@@ -63,7 +67,7 @@
         (list
 	  (simple-service 'editor-env-var
 		   home-environment-variables-service-type
-		   '(("EDITOR" . "neovim")))
+		   '(("EDITOR" . "nvim")))
 
           (service home-fish-service-type)
 
