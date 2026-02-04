@@ -14,6 +14,8 @@
 (use-package-modules wm ; grimshot
 		     xdisorg ; wl-clipboard
 		     rust-apps ; jujutsu
+		     emacs ; self-explanatory
+		     emacs-xyz ; evil
 		     vim ; self-explanatory
 		     librewolf ; self-explanatory
 		     lua ; fennel
@@ -24,8 +26,19 @@
   (list neovim
 	neovim-nfnl
 	neovim-conjure
+	vim-guile
 	vim-paredit
 	vim-guix-vim))
+
+(define emacs-packages
+  (list emacs
+	emacs-paredit
+	emacs-geiser
+	emacs-geiser-guile
+	emacs-evil
+	emacs-evil-collection
+	emacs-evil-commentary
+	emacs-evil-paredit))
 
 (define sway-bar-status #~(string-append "while "
                  #$coreutils "/bin/date"
@@ -54,6 +67,7 @@
 (define home-config
   (home-environment
     (packages (append neovim-packages
+		      emacs-packages
 		      (list jujutsu
 			    ripgrep
 			    fd
