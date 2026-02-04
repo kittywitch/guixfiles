@@ -13,3 +13,10 @@
 (add-hook 'geiser-repl-mode-hook 'ac-geiser-setup)
 (eval-after-load "auto-complete"
   '(add-to-list 'ac-modes 'geiser-repl-mode))
+
+(load-theme 'gruvbox-dark-medium t)
+
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+
+(add-to-list 'default-frame-alist '(alpha-background . 90))

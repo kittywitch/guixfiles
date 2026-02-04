@@ -20,6 +20,7 @@
 		     librewolf ; self-explanatory
 		     lua ; fennel
 		     terminals ; foot
+		     admin ; fastfetch
 		     )
 
 (define neovim-packages 
@@ -31,18 +32,17 @@
 	vim-guix-vim))
 
 (define emacs-packages
-  (list emacs
+  (list emacs-pgtk
 	emacs-paredit
 	emacs-geiser
 	emacs-geiser-guile
+	emacs-gruvbox-theme
 	emacs-evil
 	emacs-evil-collection
 	emacs-evil-commentary
 	emacs-evil-paredit))
 
-(define sway-bar-status #~(string-append "while "
-                 #$coreutils "/bin/date"
-                 " +'%Y-%m-%d %X'; do sleep 1; done"))
+(define sway-bar-status (file-append i3status-rust "/bin/i3status-rs"))
 
 (define sway-config
   (sway-configuration
@@ -57,8 +57,9 @@
     (keybindings %sway-default-keybindings)
     (gestures %sway-default-gestures)
     (packages (append (list
-			grimshot
-			wl-clipboard) %sway-default-packages))
+		       grimshot
+		       i3status-rust
+		       wl-clipboard) %sway-default-packages))
     (modes %sway-default-modes)
     ;(startup-programs %sway-default-startup-programs)
     (inputs (list (sway-input (identifier "type:keyboard")
@@ -69,6 +70,7 @@
     (packages (append neovim-packages
 		      emacs-packages
 		      (list jujutsu
+			    fastfetch
 			    ripgrep
 			    fd
 			    sd
