@@ -106,7 +106,7 @@
     (outputs
            (list (sway-output
                   (identifier '*)
-                  (background (local-file "files/homu-wallpaper.jpg")))))
+                  (background (local-file "files/lain-wallpaper.jpg")))))
     (packages (append (list
 		       grimshot
 		       i3status-rust
