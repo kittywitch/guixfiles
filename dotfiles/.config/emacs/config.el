@@ -21,4 +21,4 @@
 (scroll-bar-mode -1)
 
 (add-to-list 'default-frame-alist '(alpha-background . 90))
-(set-frame-font "Atkinson Hyperlegible Next 10" nil t)
+(set-frame-font "Atkinson Hyperlegible Mono 8" nil t)

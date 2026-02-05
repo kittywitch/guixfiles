@@ -126,6 +126,7 @@
 			    starship
 			    font-awesome
 			    font-atkinson-hyperlegible-next
+			    font-atkinson-hyperlegible-mono
 			    fastfetch
 			    pavucontrol
 			    ripgrep

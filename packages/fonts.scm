@@ -1,6 +1,26 @@
 (define-module (packages fonts)
 	       #:use-module (guix build-system font))
 
+(define-public font-atkinson-hyperlegible-mono
+  (package
+    (name "font-atkinson-hyperlegible-mono")
+    (version "2.001-unstable-2024-11-20")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/googlefonts/atkinson-hyperlegible-mono")
+             (commit "154d50362016cc3e873eb21d242cd0772384c8f9")))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "0000000000000000000000000000000000000000000000000000"))))
+    (build-system font-build-system)
+    (home-page "https://www.brailleinstitute.org/freefont/")
+    (synopsis "New (2024) monospace sibling family to Atkinson Hyperlegible Next")
+    (description
+     "Read Easier With Our Family of Hyperlegible® Fonts")
+    (license license:ofl)))
+
 (define-public font-atkinson-hyperlegible-next
   (package
     (name "font-atkinson-hyperlegible-next")
